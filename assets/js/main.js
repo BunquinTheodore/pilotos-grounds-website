@@ -54,6 +54,16 @@
     if (reduceMotion || !window.matchMedia("(pointer:fine)").matches) return;
     var el = document.createElement("div");
     el.id = "cursor";
+    el.innerHTML =
+      '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<g class="steam">' +
+          '<path class="steam-l" d="M14 13 Q11 9 14 6 Q17 3 14 0" stroke="#F8F8FE" stroke-width="1.6" stroke-linecap="round"/>' +
+          '<path class="steam-r" d="M23 13 Q20 9 23 6 Q26 3 23 0" stroke="#F8F8FE" stroke-width="1.6" stroke-linecap="round"/>' +
+        '</g>' +
+        '<path d="M9 16h20l-1.4 13.2A4 4 0 0 1 23.6 33H15.4a4 4 0 0 1-4-3.8L10 16z" fill="#0C0908" stroke="#F8F8FE" stroke-width="1.4"/>' +
+        '<rect x="11.2" y="20" width="16.6" height="3" fill="#E3D1B3"/>' +
+        '<path d="M29 19c3.5 0 5.6 4.2 3 6.8-1.2 1.2-3 1.5-4.6 1" stroke="#F8F8FE" stroke-width="1.6" fill="none" stroke-linecap="round"/>' +
+      '</svg>';
     document.body.appendChild(el);
     document.documentElement.classList.add("has-custom-cursor");
 
