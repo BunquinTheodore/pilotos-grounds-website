@@ -515,6 +515,27 @@ body.theme-afterhours #cursor-ring.is-hover{ border-color: var(--pink); backgrou
 .theme-afterhours p{ color: rgba(248,248,254,.68); }
 .theme-afterhours .eyebrow{ color: var(--beige); opacity:1; }
 .theme-afterhours .price-card, .theme-afterhours .filter-btn{ border-color: rgba(248,248,254,.18); }
+.theme-afterhours .menu-list{ border-color: rgba(248,248,254,.16); }
+.theme-afterhours .menu-row{ border-color: rgba(248,248,254,.16); }
+.theme-afterhours .menu-row .name, .theme-afterhours .menu-row .price{ color: var(--white); }
+.theme-afterhours .menu-row .desc{ color: rgba(248,248,254,.55); }
+
+.menu-jump{
+  display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
+  max-width: var(--container); margin: 96px auto 0; padding-inline: var(--gutter);
+  position: sticky; top: 84px; z-index: 60;
+}
+.menu-jump a{
+  padding: 9px 18px; border-radius:999px;
+  font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
+  border:1px solid rgba(248,248,254,.2); color: rgba(248,248,254,.85);
+  background: rgba(12,9,8,.55); backdrop-filter: blur(10px);
+  transition: background .3s ease, color .3s ease, border-color .3s ease;
+}
+.menu-jump a:hover{ background: var(--white); color: var(--black); border-color: var(--white); }
+@media (max-width:700px){ .menu-jump{ position:static; justify-content:flex-start; overflow-x:auto; flex-wrap:nowrap; margin-top:60px; } }
+
+#usuals, #signatures, #mocktails, #pastries, #picas, #pastas, #powerbowls{ scroll-margin-top: 150px; }
 .ah-wordmark{
   font-family: var(--font-script); font-style:italic; font-weight:500;
   font-size: clamp(3.4rem, 9vw, 8rem); line-height:.9;
