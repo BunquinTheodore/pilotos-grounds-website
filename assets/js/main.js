@@ -96,7 +96,7 @@
     }
 
     var here = document.body.getAttribute("data-page");
-    document.querySelectorAll(".nav-links a[data-page]").forEach(function (a) {
+    document.querySelectorAll(".nav-links a[data-page], .mobile-tabbar a[data-page]").forEach(function (a) {
       if (a.getAttribute("data-page") === here) a.classList.add("is-active");
     });
   }
