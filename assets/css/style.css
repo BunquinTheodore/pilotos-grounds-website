@@ -180,16 +180,6 @@ p{ color: rgba(12,9,8,.72); }
   0%{ transform: scale(.88) translateY(10px); opacity:0; }
   100%{ transform: none; opacity:1; }
 }
-.preloader-word{
-  position:absolute;
-  color: var(--white);
-  font-size:.72rem; letter-spacing:.4em; text-transform:uppercase;
-  bottom: 12%;
-  opacity:0;
-  animation: fade-in .6s ease .6s forwards;
-}
-@keyframes fade-in{ to{ opacity:.7; } }
-
 /* ==========================================================================
    Custom cursor (desktop / fine pointer only, toggled via JS + media query)
    ========================================================================== */
@@ -227,11 +217,11 @@ p{ color: rgba(12,9,8,.72); }
 .nav-links a:hover::after, .nav-links a.is-active::after{ transform: scaleX(1); transform-origin:left; }
 .nav-links a.is-active{ opacity: 1; }
 .nav-cta{ display:flex; align-items:center; gap:14px; }
-.nav-toggle{ display:none; background:none; border:0; width:34px; height:26px; position:relative; }
-.nav-toggle span{ position:absolute; left:0; right:0; height:2px; background: var(--ink); transition: transform .3s ease, opacity .3s ease; }
-.nav-toggle span:nth-child(1){ top:0; }
-.nav-toggle span:nth-child(2){ top:12px; }
-.nav-toggle span:nth-child(3){ top:24px; }
+.nav-toggle{ display:none; background:none; border:0; width:44px; height:44px; position:relative; }
+.nav-toggle span{ position:absolute; left:11px; right:11px; height:2px; background: var(--ink); transition: transform .3s ease, opacity .3s ease; }
+.nav-toggle span:nth-child(1){ top:14px; }
+.nav-toggle span:nth-child(2){ top:21px; }
+.nav-toggle span:nth-child(3){ top:28px; }
 
 .site-nav.theme-afterhours.glass{
   background: rgba(12,9,8,0.55);
@@ -304,13 +294,6 @@ p{ color: rgba(12,9,8,.72); }
 }
 @keyframes cue{ 0%{ transform:translateY(-100%);} 100%{ transform:translateY(200%);} }
 
-/* propeller motif */
-.propeller{
-  position:absolute; pointer-events:none; opacity:.9;
-  will-change: transform;
-}
-.propeller img{ width:100%; height:100%; }
-
 /* ==========================================================================
    Reveal / stagger utility (GSAP targets these)
    ========================================================================== */
@@ -363,10 +346,6 @@ p{ color: rgba(12,9,8,.72); }
   font-family: var(--font-display); font-weight:700; font-size: 1.6rem; opacity:.2; line-height:1;
 }
 .timeline-item h3{ font-size:1rem; white-space:nowrap; }
-.timeline-item .lede{ font-size:.86rem; opacity:.7; white-space:nowrap; max-width:none; }
-@media (max-width:700px){
-  .timeline-item .lede{ display:none; }
-}
 
 /* ==========================================================================
    Cards: pricing / menu / gallery
@@ -487,7 +466,7 @@ p{ color: rgba(12,9,8,.72); }
 }
 .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
 @media (max-width:620px){ .field-row{ grid-template-columns:1fr; } }
-.form-note{ font-size:.8rem; opacity:.55; margin-top:14px; }
+.form-note{ font-size:.8rem; color: rgba(12,9,8,.68); margin-top:14px; }
 #form-status{ margin-top:16px; font-size:.86rem; }
 #form-status[data-state="ok"]{ color: #147a3d; }
 #form-status[data-state="err"]{ color: #b3261e; }

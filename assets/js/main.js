@@ -130,6 +130,12 @@
       document.querySelectorAll(".stagger > *").forEach(function (el) {
         el.style.opacity = 1; el.style.transform = "none";
       });
+      document.querySelectorAll(".hero h1 .line span").forEach(function (el) {
+        el.style.transform = "none";
+      });
+      document.querySelectorAll(".hero-eyebrow, .hero-sub").forEach(function (el) {
+        el.style.opacity = 1; el.style.transform = "none";
+      });
       return;
     }
 
@@ -178,23 +184,18 @@
       });
     });
 
-    // propeller motif spin tied to scroll
-    gsap.utils.toArray(".propeller").forEach(function (el) {
-      gsap.to(el, {
-        rotation: 360,
-        ease: "none",
-        scrollTrigger: { trigger: document.body, start: 0, end: "max", scrub: 0.6 }
-      });
-    });
-
     // number count-up
     gsap.utils.toArray("[data-count]").forEach(function (el) {
       var end = parseFloat(el.getAttribute("data-count"));
+      var noGroup = el.hasAttribute("data-no-group");
       var obj = { val: 0 };
       gsap.to(obj, {
         val: end, duration: 1.6, ease: "power2.out",
         scrollTrigger: { trigger: el, start: "top 90%" },
-        onUpdate: function () { el.textContent = Math.round(obj.val).toLocaleString(); }
+        onUpdate: function () {
+          var v = Math.round(obj.val);
+          el.textContent = noGroup ? String(v) : v.toLocaleString();
+        }
       });
     });
 
@@ -269,8 +270,8 @@
      Portfolio filter + lightbox
   --------------------------------------------------------------------- */
   function initGallery() {
-    var grid = document.querySelector("[data-gallery]");
-    if (!grid) return;
+    var grids = document.querySelectorAll("[data-gallery]");
+    if (!grids.length) return;
 
     var filterBtns = document.querySelectorAll(".filter-btn");
     filterBtns.forEach(function (btn) {
@@ -278,33 +279,52 @@
         filterBtns.forEach(function (b) { b.classList.remove("is-active"); });
         btn.classList.add("is-active");
         var f = btn.getAttribute("data-filter");
-        grid.querySelectorAll(".gallery-item").forEach(function (item) {
-          var match = f === "all" || item.getAttribute("data-cat") === f;
-          item.style.display = match ? "" : "none";
+        grids.forEach(function (grid) {
+          grid.querySelectorAll(".gallery-item").forEach(function (item) {
+            var match = f === "all" || item.getAttribute("data-cat") === f;
+            item.style.display = match ? "" : "none";
+          });
         });
         if (hasScrollTrigger) ScrollTrigger.refresh();
       });
     });
 
-    var items = Array.prototype.slice.call(grid.querySelectorAll(".gallery-item"));
+    var items = [];
+    grids.forEach(function (grid) {
+      items = items.concat(Array.prototype.slice.call(grid.querySelectorAll(".gallery-item")));
+    });
     var lb = document.getElementById("lightbox");
     if (!lb) return;
     var lbImg = lb.querySelector("img");
     var idx = 0;
 
+    function show() {
+      var item = items[idx];
+      lbImg.src = item.getAttribute("data-full");
+      lbImg.alt = item.querySelector("img") ? item.querySelector("img").alt : "";
+    }
     function open(i) {
       idx = i;
-      lbImg.src = items[idx].getAttribute("data-full");
+      show();
       lb.classList.add("is-open");
     }
     function close() { lb.classList.remove("is-open"); }
     function step(dir) {
       idx = (idx + dir + items.length) % items.length;
-      lbImg.src = items[idx].getAttribute("data-full");
+      show();
     }
 
     items.forEach(function (item, i) {
+      item.setAttribute("tabindex", "0");
+      item.setAttribute("role", "button");
+      if (!item.hasAttribute("aria-label")) {
+        var img = item.querySelector("img");
+        item.setAttribute("aria-label", "View larger photo" + (img && img.alt ? ": " + img.alt : ""));
+      }
       item.addEventListener("click", function () { open(i); });
+      item.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); }
+      });
     });
     lb.querySelector(".lb-close").addEventListener("click", close);
     lb.querySelector(".lb-prev").addEventListener("click", function () { step(-1); });
