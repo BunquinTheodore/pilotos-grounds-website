@@ -197,14 +197,15 @@ p{ color: rgba(12,9,8,.72); }
 .has-custom-cursor, .has-custom-cursor a, .has-custom-cursor button{ cursor:none; }
 #cursor{
   position:fixed; top:0; left:0; z-index:9998;
-  width: 14px; height:14px; border-radius:50%;
-  background: var(--black);
+  width: 22px; height:22px; border-radius:50%;
+  background: var(--pink);
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 1px rgba(12,9,8,.55), 0 4px 16px rgba(12,9,8,.4);
   pointer-events:none;
   transform: translate(-50%,-50%);
-  mix-blend-mode: difference;
-  transition: width .3s var(--ease), height .3s var(--ease), background .3s ease;
+  transition: width .3s var(--ease), height .3s var(--ease), background .3s ease, border-width .3s ease;
 }
-#cursor.is-hover{ width:52px; height:52px; background: var(--white); }
+#cursor.is-hover{ width:56px; height:56px; background: transparent; border-width:2px; }
 @media (pointer:coarse){ #cursor{ display:none; } }
 
 /* ==========================================================================
