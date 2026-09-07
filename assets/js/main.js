@@ -203,70 +203,6 @@
   }
 
   /* ---------------------------------------------------------------------
-     Draggable, auto-scrolling story ticker (Brief History rows)
-     Always animating sideways on its own; a user can grab it and fling
-     it fast in either direction without ever stopping page scroll.
-  --------------------------------------------------------------------- */
-  function initTimelineTicker() {
-    document.querySelectorAll(".timeline-row").forEach(function (row) {
-      var dir = row.getAttribute("data-dir") === "rtl" ? 1 : -1;
-      var speed = reduceMotion ? 0 : 0.5;
-      var half = 0;
-      var dragging = false, startX = 0, startScroll = 0, lastX = 0, velocity = 0;
-
-      function measure() { half = row.scrollWidth / 2; }
-      measure();
-      window.addEventListener("resize", measure);
-
-      function wrap() {
-        if (half <= 0) return;
-        if (row.scrollLeft <= 0) row.scrollLeft += half;
-        else if (row.scrollLeft >= half) row.scrollLeft -= half;
-      }
-
-      function raf() {
-        if (!dragging) {
-          if (Math.abs(velocity) > 0.05) {
-            row.scrollLeft += velocity;
-            velocity *= 0.94;
-          } else {
-            velocity = 0;
-            row.scrollLeft += speed * dir;
-          }
-          wrap();
-        }
-        requestAnimationFrame(raf);
-      }
-
-      row.addEventListener("pointerdown", function (e) {
-        dragging = true; velocity = 0;
-        startX = lastX = e.clientX;
-        startScroll = row.scrollLeft;
-        row.classList.add("is-dragging");
-        row.setPointerCapture(e.pointerId);
-      });
-      row.addEventListener("pointermove", function (e) {
-        if (!dragging) return;
-        var dx = e.clientX - startX;
-        row.scrollLeft = startScroll - dx;
-        velocity = lastX - e.clientX;
-        lastX = e.clientX;
-        wrap();
-      });
-      function release() {
-        if (!dragging) return;
-        dragging = false;
-        row.classList.remove("is-dragging");
-      }
-      row.addEventListener("pointerup", release);
-      row.addEventListener("pointerleave", release);
-      row.addEventListener("pointercancel", release);
-
-      requestAnimationFrame(raf);
-    });
-  }
-
-  /* ---------------------------------------------------------------------
      Portfolio filter + lightbox
   --------------------------------------------------------------------- */
   function initGallery() {
@@ -383,7 +319,6 @@
     initMagnetic();
     initGallery();
     initForm();
-    initTimelineTicker();
     initSmoothScroll();
     // give layout a tick to settle (images/fonts) before measuring scroll triggers
     window.addEventListener("load", function () {
