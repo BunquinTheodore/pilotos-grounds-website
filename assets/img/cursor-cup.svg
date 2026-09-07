@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 64 64" fill="none">
+  <title>Café coffee bean cursor</title>
+  <desc>Cream arrow cursor with an espresso outline and coffee bean detail.</desc>
+  <path d="M5 3.5L55.5 34.5L35.2 38.1L46.6 55.5L36.2 61L25.1 43.3L13 59.1L5 3.5Z"
+        fill="#FFF4DE" stroke="#3B1F17" stroke-width="4" stroke-linejoin="round"/>
+  <g transform="rotate(-28 25.5 29.5)">
+    <path d="M18.4 21.1C23.7 16.2 32.7 18.4 33.6 25.7C34.5 33.1 27.1 40 20.5 36.9C13.8 33.7 13.1 26 18.4 21.1Z" fill="#6F3B24"/>
+    <path d="M19.3 20.9C24.8 24.2 27.5 29.8 31.4 35.4" stroke="#FFF4DE" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+  <path d="M8.3 7.7L48.2 32.2" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+</svg>

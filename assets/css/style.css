@@ -67,6 +67,7 @@ section{ position:relative; }
 .eyebrow::before{
   content:""; width: 22px; height:1px; background: currentColor; display:inline-block;
 }
+.eyebrow.no-line::before{ display:none; }
 
 h1, .h1{
   font-family: var(--font-display);
@@ -192,35 +193,12 @@ p{ color: rgba(12,9,8,.72); }
 /* ==========================================================================
    Custom cursor (desktop / fine pointer only, toggled via JS + media query)
    ========================================================================== */
-.has-custom-cursor, .has-custom-cursor a, .has-custom-cursor button{ cursor:none; }
-
-#cursor-dot{
-  position:fixed; top:0; left:0; z-index:9999;
-  width: 6px; height:6px; border-radius:50%;
-  background: var(--black);
-  pointer-events:none;
-  transition: opacity .2s ease, background .2s ease;
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button,
+.has-custom-cursor .gallery-item{
+  cursor: url("../img/cursor-cup.svg") 3 3, auto;
 }
-#cursor-ring{
-  position:fixed; top:0; left:0; z-index:9998;
-  width: 34px; height:34px; border-radius:50%;
-  border: 1.5px solid rgba(12,9,8,.55);
-  pointer-events:none;
-  transition: width .28s var(--ease), height .28s var(--ease), border-color .28s ease, background .28s ease, opacity .2s ease;
-}
-#cursor-ring.is-hover{
-  width: 54px; height:54px;
-  border-color: var(--pink);
-  background: rgba(255,0,119,.06);
-}
-#cursor-dot.is-hover{ opacity:0; }
-#cursor-ring.is-down{ width: 26px; height:26px; }
-
-@media (pointer:coarse){ #cursor-dot, #cursor-ring{ display:none; } }
-
-body.theme-afterhours #cursor-dot{ background: var(--white); }
-body.theme-afterhours #cursor-ring{ border-color: rgba(248,248,254,.55); }
-body.theme-afterhours #cursor-ring.is-hover{ border-color: var(--pink); background: rgba(255,0,119,.1); }
 
 /* ==========================================================================
    Nav
@@ -363,22 +341,31 @@ body.theme-afterhours #cursor-ring.is-hover{ border-color: var(--pink); backgrou
 .stat .num{ font-family:var(--font-display); font-weight:700; font-size: clamp(2.2rem,4vw,3.4rem); }
 .stat .cap{ font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; opacity:.6; margin-top:6px; }
 
-/* pinned story / timeline */
-.pin-stage{ position:relative; }
-.pin-panel{
-  position:sticky; top:0; height:100svh;
-  display:flex; align-items:center; overflow:hidden;
+/* auto-scrolling, draggable sideways story ticker — always visible, never captures page scroll */
+.timeline-marquee{ display:flex; flex-direction:column; gap: 20px; padding: 12px 0 8px; }
+.timeline-row{
+  overflow-x:auto; overflow-y:hidden; cursor:grab;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch;
+  user-select:none;
 }
-@media (max-width: 700px){
-  .pin-panel{ align-items:flex-start; padding-top: 90px; }
-}
-.timeline-track{ display:flex; }
+.timeline-row::-webkit-scrollbar{ display:none; }
+.timeline-row.is-dragging{ cursor:grabbing; }
+.timeline-track{ display:flex; width:max-content; }
 .timeline-item{
-  flex: 0 0 min(560px, 82vw);
-  margin-right: clamp(40px,6vw,110px);
+  flex: 0 0 auto;
+  display:flex; align-items:baseline; gap:14px;
+  white-space:nowrap;
+  padding: 10px var(--gutter);
+  margin-right: 4px;
+  border-right: 1px solid var(--line);
 }
 .timeline-item .idx{
-  font-family: var(--font-display); font-weight:700; font-size: 5rem; opacity:.12; line-height:1;
+  font-family: var(--font-display); font-weight:700; font-size: 1.6rem; opacity:.2; line-height:1;
+}
+.timeline-item h3{ font-size:1rem; white-space:nowrap; }
+.timeline-item .lede{ font-size:.86rem; opacity:.7; white-space:nowrap; max-width:none; }
+@media (max-width:700px){
+  .timeline-item .lede{ display:none; }
 }
 
 /* ==========================================================================
@@ -391,6 +378,7 @@ body.theme-afterhours #cursor-ring.is-hover{ border-color: var(--pink); backgrou
 @media (max-width: 620px){ .grid-3, .grid-4{ grid-template-columns: 1fr; } }
 
 .price-card{
+  display:flex; flex-direction:column; height:100%;
   border-radius: var(--radius);
   padding: 34px 28px;
   border: 1px solid var(--line);
@@ -409,12 +397,15 @@ body.theme-afterhours #cursor-ring.is-hover{ border-color: var(--pink); backgrou
   font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; font-weight:700;
   padding: 6px 14px; border-radius:999px;
 }
-.price-card .amount{ font-family:var(--font-display); font-weight:700; font-size: clamp(2rem,3vw,2.6rem); margin: 10px 0 18px; }
+.price-card .amount{ font-family:var(--font-display); font-weight:700; font-size: clamp(2.1rem,3.2vw,2.8rem); letter-spacing:-.01em; margin: 10px 0 18px; }
 .price-card .amount sup{ font-size:.9rem; opacity:.6; margin-left:4px; font-weight:500;}
-.price-card ul{ display:flex; flex-direction:column; gap:10px; margin-top:18px; padding-top:18px; border-top:1px solid var(--line); }
+.price-card ul{ display:flex; flex-direction:column; gap:12px; margin-top:auto; padding-top:18px; border-top:1px solid var(--line); }
 .price-card.is-featured ul{ border-color: rgba(248,248,254,.18); }
-.price-card li{ display:flex; justify-content:space-between; font-size:.92rem; }
-.price-card li b{ font-weight:600; }
+.price-card li{ display:flex; justify-content:space-between; align-items:baseline; font-size:.92rem; color: rgba(12,9,8,.6); }
+.price-card.is-featured li{ color: rgba(248,248,254,.6); }
+.price-card li b{ font-weight:700; color: var(--ink); font-size:1rem; }
+.price-card.is-featured li b{ color: var(--white); }
+.price-card > .eyebrow{ opacity:.7 !important; }
 
 .menu-list{ border-top:1px solid var(--line); }
 .menu-row{
@@ -426,9 +417,14 @@ body.theme-afterhours #cursor-ring.is-hover{ border-color: var(--pink); backgrou
 .menu-row .price{ text-align:right; font-weight:600; white-space:nowrap; }
 .menu-row .price small{ display:block; font-weight:400; opacity:.5; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; }
 .addons{
-  margin-top: 26px; padding: 22px 24px; border-radius: var(--radius-sm);
+  margin-top: 26px; padding: 8px 16px; border-radius: 999px;
   background: var(--beige); color: var(--black);
+  display: inline-block; max-width: 100%;
+  font-size: .8rem; line-height:1.5;
 }
+.addons b{ font-weight:700; }
+.addons--mono{ background: var(--white); color: var(--black); border: 1px solid rgba(248,248,254,.2); }
+.addons--mono b{ color: var(--black); }
 
 .gallery-item{
   position:relative; overflow:hidden; border-radius: var(--radius-sm);

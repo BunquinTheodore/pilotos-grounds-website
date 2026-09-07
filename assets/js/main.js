@@ -51,39 +51,11 @@
      Custom cursor — desktop / fine-pointer only
   --------------------------------------------------------------------- */
   function initCursor() {
+    // Native custom cursor (a coffee-cup icon) — zero-lag since it's the
+    // real OS pointer, not a JS-tracked element. Skipped on touch devices
+    // automatically since there's no pointer to swap there.
     if (reduceMotion || !window.matchMedia("(pointer:fine)").matches) return;
-
-    var dot = document.createElement("div");
-    dot.id = "cursor-dot";
-    var ring = document.createElement("div");
-    ring.id = "cursor-ring";
-    document.body.appendChild(ring);
-    document.body.appendChild(dot);
     document.documentElement.classList.add("has-custom-cursor");
-
-    var x = window.innerWidth / 2, y = window.innerHeight / 2, rx = x, ry = y;
-    window.addEventListener("mousemove", function (e) {
-      x = e.clientX; y = e.clientY;
-      dot.style.transform = "translate(" + x + "px," + y + "px) translate(-50%,-50%)";
-    });
-
-    function raf() {
-      rx += (x - rx) * 0.42;
-      ry += (y - ry) * 0.42;
-      ring.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
-      requestAnimationFrame(raf);
-    }
-    raf();
-
-    var hoverables = "a, button, .gallery-item, input, textarea, select, .price-card";
-    document.addEventListener("mouseover", function (e) {
-      if (e.target.closest(hoverables)) { ring.classList.add("is-hover"); dot.classList.add("is-hover"); }
-    });
-    document.addEventListener("mouseout", function (e) {
-      if (e.target.closest(hoverables)) { ring.classList.remove("is-hover"); dot.classList.remove("is-hover"); }
-    });
-    document.addEventListener("mousedown", function () { ring.classList.add("is-down"); });
-    document.addEventListener("mouseup", function () { ring.classList.remove("is-down"); });
   }
 
   /* ---------------------------------------------------------------------
@@ -215,21 +187,6 @@
       });
     });
 
-    // pinned timeline (About / Brief History)
-    document.querySelectorAll("[data-pin-track]").forEach(function (stage) {
-      var track = stage.querySelector(".timeline-track");
-      if (!track) return;
-      var distance = track.scrollWidth - stage.clientWidth + 160;
-      gsap.to(track, {
-        x: -distance,
-        ease: "none",
-        scrollTrigger: {
-          trigger: stage, start: "top top", end: "+=" + (distance + 400),
-          scrub: 0.6, pin: true, anticipatePin: 1
-        }
-      });
-    });
-
     // number count-up
     gsap.utils.toArray("[data-count]").forEach(function (el) {
       var end = parseFloat(el.getAttribute("data-count"));
@@ -242,6 +199,70 @@
     });
 
     ScrollTrigger.refresh();
+  }
+
+  /* ---------------------------------------------------------------------
+     Draggable, auto-scrolling story ticker (Brief History rows)
+     Always animating sideways on its own; a user can grab it and fling
+     it fast in either direction without ever stopping page scroll.
+  --------------------------------------------------------------------- */
+  function initTimelineTicker() {
+    document.querySelectorAll(".timeline-row").forEach(function (row) {
+      var dir = row.getAttribute("data-dir") === "rtl" ? 1 : -1;
+      var speed = reduceMotion ? 0 : 0.5;
+      var half = 0;
+      var dragging = false, startX = 0, startScroll = 0, lastX = 0, velocity = 0;
+
+      function measure() { half = row.scrollWidth / 2; }
+      measure();
+      window.addEventListener("resize", measure);
+
+      function wrap() {
+        if (half <= 0) return;
+        if (row.scrollLeft <= 0) row.scrollLeft += half;
+        else if (row.scrollLeft >= half) row.scrollLeft -= half;
+      }
+
+      function raf() {
+        if (!dragging) {
+          if (Math.abs(velocity) > 0.05) {
+            row.scrollLeft += velocity;
+            velocity *= 0.94;
+          } else {
+            velocity = 0;
+            row.scrollLeft += speed * dir;
+          }
+          wrap();
+        }
+        requestAnimationFrame(raf);
+      }
+
+      row.addEventListener("pointerdown", function (e) {
+        dragging = true; velocity = 0;
+        startX = lastX = e.clientX;
+        startScroll = row.scrollLeft;
+        row.classList.add("is-dragging");
+        row.setPointerCapture(e.pointerId);
+      });
+      row.addEventListener("pointermove", function (e) {
+        if (!dragging) return;
+        var dx = e.clientX - startX;
+        row.scrollLeft = startScroll - dx;
+        velocity = lastX - e.clientX;
+        lastX = e.clientX;
+        wrap();
+      });
+      function release() {
+        if (!dragging) return;
+        dragging = false;
+        row.classList.remove("is-dragging");
+      }
+      row.addEventListener("pointerup", release);
+      row.addEventListener("pointerleave", release);
+      row.addEventListener("pointercancel", release);
+
+      requestAnimationFrame(raf);
+    });
   }
 
   /* ---------------------------------------------------------------------
@@ -342,6 +363,7 @@
     initMagnetic();
     initGallery();
     initForm();
+    initTimelineTicker();
     initSmoothScroll();
     // give layout a tick to settle (images/fonts) before measuring scroll triggers
     window.addEventListener("load", function () {
