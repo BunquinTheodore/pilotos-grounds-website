@@ -369,6 +369,9 @@ body.theme-afterhours #cursor-ring.is-hover{ border-color: var(--pink); backgrou
   position:sticky; top:0; height:100svh;
   display:flex; align-items:center; overflow:hidden;
 }
+@media (max-width: 700px){
+  .pin-panel{ align-items:flex-start; padding-top: 90px; }
+}
 .timeline-track{ display:flex; }
 .timeline-item{
   flex: 0 0 min(560px, 82vw);
