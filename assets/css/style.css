@@ -594,11 +594,18 @@ p{ color: rgba(12,9,8,.72); }
   background: rgba(255,255,255,.75);
   box-shadow: 0 2px 10px -2px rgba(12,9,8,.25), inset 0 1px 0 rgba(255,255,255,.8);
   view-transition-name: active-tab-pill;
-  animation: tab-pop .35s var(--ease);
 }
-@keyframes tab-pop{ 0%{ transform:scale(.8); opacity:.5; } 100%{ transform:scale(1); opacity:1; } }
+/* Only play the pop-in fallback where the browser can't morph it via a
+   view transition itself — avoids double-animating the same pill. */
+@supports not (view-transition-name: none){
+  .mobile-tabbar a.is-active{ animation: tab-pop .35s var(--ease); }
+  @keyframes tab-pop{ 0%{ transform:scale(.8); opacity:.5; } 100%{ transform:scale(1); opacity:1; } }
+}
 @media (prefers-reduced-motion: reduce){
   .mobile-tabbar a.is-active{ animation:none; }
+  .mobile-tabbar a{ transition: color .25s ease, background .25s ease; }
+  .mobile-tabbar a:active, .mobile-tabbar a:active svg{ transform:none; }
+  .mobile-tabbar a svg{ transition:none; }
 }
 
 .theme-afterhours .mobile-tabbar{
