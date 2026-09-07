@@ -5,6 +5,11 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
 
+/* Smooth cross-page transitions (progressive enhancement — ignored where unsupported) */
+@view-transition{
+  navigation: auto;
+}
+
 :root{
   /* brand palette (exact hexes from brand guide p.6) */
   --black:   #0C0908;
@@ -93,6 +98,9 @@ h3, .h3{
 }
 p{ color: rgba(12,9,8,.72); }
 .lede{ font-size: clamp(1.05rem, 1.6vw, 1.35rem); color: rgba(12,9,8,.75); max-width: 46ch; }
+@media (max-width: 480px){
+  .lede-compact{ font-size: .88rem; line-height:1.5; }
+}
 
 /* ==========================================================================
    Buttons
@@ -410,7 +418,7 @@ p{ color: rgba(12,9,8,.72); }
   font-size: .8rem; line-height:1.5;
 }
 .addons b{ font-weight:700; }
-.addons--mono{ background: var(--white); color: var(--black); border: 1px solid rgba(248,248,254,.2); }
+.addons--mono, .theme-afterhours .addons--mono{ background: var(--white); color: var(--black); border: 1px solid rgba(248,248,254,.2); }
 .addons--mono b{ color: var(--black); }
 
 .gallery-item{
@@ -576,13 +584,21 @@ p{ color: rgba(12,9,8,.72); }
   border-radius: 999px;
   color: rgba(12,9,8,.45);
   font-size:.6rem; letter-spacing:.02em; font-weight:600; text-transform:uppercase;
-  transition: color .25s ease, background .25s ease;
+  transition: color .25s ease, background .25s ease, transform .2s ease;
 }
-.mobile-tabbar a svg{ width:20px; height:20px; }
+.mobile-tabbar a svg{ width:20px; height:20px; transition: transform .3s var(--ease); }
+.mobile-tabbar a:active{ transform: scale(.88); }
+.mobile-tabbar a:active svg{ transform: scale(.85); }
 .mobile-tabbar a.is-active{
   color: var(--black);
   background: rgba(255,255,255,.75);
   box-shadow: 0 2px 10px -2px rgba(12,9,8,.25), inset 0 1px 0 rgba(255,255,255,.8);
+  view-transition-name: active-tab-pill;
+  animation: tab-pop .35s var(--ease);
+}
+@keyframes tab-pop{ 0%{ transform:scale(.8); opacity:.5; } 100%{ transform:scale(1); opacity:1; } }
+@media (prefers-reduced-motion: reduce){
+  .mobile-tabbar a.is-active{ animation:none; }
 }
 
 .theme-afterhours .mobile-tabbar{
