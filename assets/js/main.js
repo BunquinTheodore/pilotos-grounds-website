@@ -52,39 +52,38 @@
   --------------------------------------------------------------------- */
   function initCursor() {
     if (reduceMotion || !window.matchMedia("(pointer:fine)").matches) return;
-    var el = document.createElement("div");
-    el.id = "cursor";
-    el.innerHTML =
-      '<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-        '<g class="steam">' +
-          '<path class="steam-l" d="M14 13 Q11 9 14 6 Q17 3 14 0" stroke="#F8F8FE" stroke-width="1.6" stroke-linecap="round"/>' +
-          '<path class="steam-r" d="M23 13 Q20 9 23 6 Q26 3 23 0" stroke="#F8F8FE" stroke-width="1.6" stroke-linecap="round"/>' +
-        '</g>' +
-        '<path d="M9 16h20l-1.4 13.2A4 4 0 0 1 23.6 33H15.4a4 4 0 0 1-4-3.8L10 16z" fill="#0C0908" stroke="#F8F8FE" stroke-width="1.4"/>' +
-        '<rect x="11.2" y="20" width="16.6" height="3" fill="#E3D1B3"/>' +
-        '<path d="M29 19c3.5 0 5.6 4.2 3 6.8-1.2 1.2-3 1.5-4.6 1" stroke="#F8F8FE" stroke-width="1.6" fill="none" stroke-linecap="round"/>' +
-      '</svg>';
-    document.body.appendChild(el);
+
+    var dot = document.createElement("div");
+    dot.id = "cursor-dot";
+    var ring = document.createElement("div");
+    ring.id = "cursor-ring";
+    document.body.appendChild(ring);
+    document.body.appendChild(dot);
     document.documentElement.classList.add("has-custom-cursor");
 
-    var x = window.innerWidth / 2, y = window.innerHeight / 2, cx = x, cy = y;
-    window.addEventListener("mousemove", function (e) { x = e.clientX; y = e.clientY; });
+    var x = window.innerWidth / 2, y = window.innerHeight / 2, rx = x, ry = y;
+    window.addEventListener("mousemove", function (e) {
+      x = e.clientX; y = e.clientY;
+      dot.style.transform = "translate(" + x + "px," + y + "px) translate(-50%,-50%)";
+    });
 
     function raf() {
-      cx += (x - cx) * 0.18;
-      cy += (y - cy) * 0.18;
-      el.style.transform = "translate(" + cx + "px," + cy + "px) translate(-50%,-50%)";
+      rx += (x - rx) * 0.42;
+      ry += (y - ry) * 0.42;
+      ring.style.transform = "translate(" + rx + "px," + ry + "px) translate(-50%,-50%)";
       requestAnimationFrame(raf);
     }
     raf();
 
     var hoverables = "a, button, .gallery-item, input, textarea, select, .price-card";
     document.addEventListener("mouseover", function (e) {
-      if (e.target.closest(hoverables)) el.classList.add("is-hover");
+      if (e.target.closest(hoverables)) { ring.classList.add("is-hover"); dot.classList.add("is-hover"); }
     });
     document.addEventListener("mouseout", function (e) {
-      if (e.target.closest(hoverables)) el.classList.remove("is-hover");
+      if (e.target.closest(hoverables)) { ring.classList.remove("is-hover"); dot.classList.remove("is-hover"); }
     });
+    document.addEventListener("mousedown", function () { ring.classList.add("is-down"); });
+    document.addEventListener("mouseup", function () { ring.classList.remove("is-down"); });
   }
 
   /* ---------------------------------------------------------------------
