@@ -72,6 +72,17 @@
     } else {
       requestAnimationFrame(function raf(t) { lenis.raf(t); requestAnimationFrame(raf); });
     }
+    // Lenis intercepts scrolling, so a page loaded with a #hash (e.g. a
+    // footer link into packages.html#terms) needs an explicit scroll once
+    // the target section exists and layout has settled.
+    if (window.location.hash) {
+      var target = document.querySelector(window.location.hash);
+      if (target) {
+        window.addEventListener("load", function () {
+          setTimeout(function () { lenis.scrollTo(target, { immediate: true }); }, 120);
+        });
+      }
+    }
     return lenis;
   }
 
@@ -282,6 +293,16 @@
     var form = document.getElementById("quote-form");
     if (!form) return;
     var status = document.getElementById("form-status");
+
+    var bookingType = document.getElementById("booking_type");
+    if (bookingType) {
+      var requested = new URLSearchParams(window.location.search).get("type");
+      var hasOption = Array.prototype.some.call(bookingType.options, function (o) { return o.value === requested; });
+      if (requested && hasOption) {
+        bookingType.value = requested;
+      }
+    }
+
     var endpoint = form.getAttribute("action");
     var usesFormspree = endpoint && endpoint.indexOf("formspree.io") !== -1;
 
@@ -312,12 +333,18 @@
   /* ---------------------------------------------------------------------
      Boot
   --------------------------------------------------------------------- */
+  // Exposed so a page with a Firebase-backed dynamic gallery (data-dynamic-gallery
+  // on <body>, e.g. portfolio.html) can call this itself once photos are fetched
+  // and rendered, instead of the automatic DOMContentLoaded call below (which
+  // would otherwise run before that async fetch resolves and find an empty grid).
+  window.PG_initGallery = initGallery;
+
   document.addEventListener("DOMContentLoaded", function () {
     initPreloader();
     initCursor();
     initNav();
     initMagnetic();
-    initGallery();
+    if (!document.body.hasAttribute("data-dynamic-gallery")) initGallery();
     initForm();
     initSmoothScroll();
     // give layout a tick to settle (images/fonts) before measuring scroll triggers

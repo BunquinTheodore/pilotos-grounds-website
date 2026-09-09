@@ -205,7 +205,13 @@ p{ color: rgba(12,9,8,.72); }
 .has-custom-cursor a,
 .has-custom-cursor button,
 .has-custom-cursor .gallery-item{
-  cursor: url("../img/cursor-cup.svg") 3 3, auto;
+  cursor: url("../img/cursor-cup.svg") 2 2, auto;
+}
+html.has-custom-cursor body.theme-afterhours,
+html.has-custom-cursor body.theme-afterhours a,
+html.has-custom-cursor body.theme-afterhours button,
+html.has-custom-cursor body.theme-afterhours .gallery-item{
+  cursor: url("../img/cursor-cup-white.svg") 2 2, auto;
 }
 
 /* ==========================================================================
@@ -411,6 +417,12 @@ p{ color: rgba(12,9,8,.72); }
 .menu-row .desc{ grid-column: 1 / -1; font-size:.9rem; color: rgba(12,9,8,.58); max-width: 62ch; margin-top:-6px; }
 .menu-row .price{ text-align:right; font-weight:600; white-space:nowrap; }
 .menu-row .price small{ display:block; font-weight:400; opacity:.5; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; }
+.menu-list--no-price .menu-row{ grid-template-columns: 1fr; }
+.menu-list--no-price .price{ display:none; }
+/* Client asked specifically for the standalone Menu page's descriptions to
+   go lowercase (menu.html is the only page besides afterhours.html — which
+   has no .menu-row content — using .theme-afterhours). */
+.theme-afterhours .menu-row .desc{ text-transform:lowercase; }
 .addons{
   margin-top: 26px; padding: 8px 16px; border-radius: 999px;
   background: var(--beige); color: var(--black);
