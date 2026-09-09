@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <script>if(sessionStorage.getItem("pg_intro_seen")){document.write("<style>#preloader{display:none!important}</style>")}</script>
 </head>
-<body data-page="portfolio" data-dynamic-gallery>
+<body data-page="portfolio">
 
 <div id="preloader">
   <div class="preloader-mark"><img src="assets/img/logo-black.png" alt="" style="filter:invert(1)"></div>
@@ -51,8 +51,28 @@
         <button class="filter-btn" data-filter="food">Afterhours Food</button>
       </div>
 
-      <div class="grid grid-4 stagger" data-gallery data-gallery-loading>
-        <p class="gallery-loading" style="grid-column:1/-1;text-align:center;padding:60px 0;opacity:.6">Loading events…</p>
+      <div class="grid grid-4 stagger" data-gallery>
+
+        <div class="gallery-item tall" data-cat="cart" data-full="assets/img/pilotos/DSC_0166.jpg"><img src="assets/img/pilotos/thumbs/DSC_0166.jpg" alt="Barista pulling espresso on the cart"><span class="cap">Pilotos Grounds Cart</span></div>
+        <div class="gallery-item" data-cat="cart" data-full="assets/img/pilotos/DSC_0151.jpg"><img src="assets/img/pilotos/thumbs/DSC_0151.jpg" alt="Guests being served at an event"><span class="cap">Pilotos Grounds Cart</span></div>
+        <div class="gallery-item" data-cat="cart" data-full="assets/img/pilotos/DSC_0179.jpg"><img src="assets/img/pilotos/thumbs/DSC_0179.jpg" alt="Cart pouring coffee"><span class="cap">Pilotos Grounds Cart</span></div>
+        <div class="gallery-item tall" data-cat="cart" data-full="assets/img/pilotos/DSC_0216.jpg"><img src="assets/img/pilotos/thumbs/DSC_0216.jpg" alt="Cart service closeup"><span class="cap">Pilotos Grounds Cart</span></div>
+
+        <div class="gallery-item" data-cat="cart" data-full="assets/img/pilotos/DSC_0292.jpg"><img src="assets/img/pilotos/thumbs/DSC_0292.jpg" alt="Cart set up at a venue"><span class="cap">Pilotos Grounds Cart</span></div>
+        <div class="gallery-item tall" data-cat="interior" data-full="assets/img/afterhours/interior/IMG_5198.jpg"><img src="assets/img/afterhours/interior/thumbs/IMG_5198.jpg" alt="Afterhours seating"><span class="cap">Afterhours</span></div>
+        <div class="gallery-item" data-cat="interior" data-full="assets/img/afterhours/interior/IMG_5209.jpg"><img src="assets/img/afterhours/interior/thumbs/IMG_5209.jpg" alt="Afterhours interior"><span class="cap">Afterhours</span></div>
+        <div class="gallery-item" data-cat="food" data-full="assets/img/afterhours/food/DSC_0130.jpg"><img src="assets/img/afterhours/food/thumbs/DSC_0130.jpg" alt="Afterhours plated food"><span class="cap">Afterhours Food</span></div>
+
+        <div class="gallery-item tall" data-cat="cart" data-full="assets/img/pilotos/DSC_0195.jpg"><img src="assets/img/pilotos/thumbs/DSC_0195.jpg" alt="Coffee cart"><span class="cap">Pilotos Grounds Cart</span></div>
+        <div class="gallery-item" data-cat="interior" data-full="assets/img/afterhours/interior/IMG_5225.jpg"><img src="assets/img/afterhours/interior/thumbs/IMG_5225.jpg" alt="Afterhours interior detail"><span class="cap">Afterhours</span></div>
+        <div class="gallery-item" data-cat="food" data-full="assets/img/afterhours/food/DSC_0143.jpg"><img src="assets/img/afterhours/food/thumbs/DSC_0143.jpg" alt="Afterhours food"><span class="cap">Afterhours Food</span></div>
+        <div class="gallery-item tall" data-cat="cart" data-full="assets/img/pilotos/DSC_0120.jpg"><img src="assets/img/pilotos/thumbs/DSC_0120.jpg" alt="Cart at event"><span class="cap">Pilotos Grounds Cart</span></div>
+
+        <div class="gallery-item" data-cat="interior" data-full="assets/img/afterhours/interior/IMG_5236.jpg"><img src="assets/img/afterhours/interior/thumbs/IMG_5236.jpg" alt="Afterhours interior"><span class="cap">Afterhours</span></div>
+        <div class="gallery-item" data-cat="food" data-full="assets/img/afterhours/food/DSC_0206.jpg"><img src="assets/img/afterhours/food/thumbs/DSC_0206.jpg" alt="Afterhours food plating"><span class="cap">Afterhours Food</span></div>
+        <div class="gallery-item tall" data-cat="cart" data-full="assets/img/pilotos/IMG_4392.jpg"><img src="assets/img/pilotos/thumbs/IMG_4392.jpg" alt="Cart event moment"><span class="cap">Pilotos Grounds Cart</span></div>
+        <div class="gallery-item" data-cat="food" data-full="assets/img/afterhours/food/DSC_0251.jpg"><img src="assets/img/afterhours/food/thumbs/DSC_0251.jpg" alt="Afterhours food"><span class="cap">Afterhours Food</span></div>
+
       </div>
     </div>
   </section>
@@ -138,6 +158,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script src="assets/js/main.js"></script>
-<script type="module" src="assets/js/gallery-data.js"></script>
 </body>
 </html>

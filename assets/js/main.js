@@ -333,18 +333,12 @@
   /* ---------------------------------------------------------------------
      Boot
   --------------------------------------------------------------------- */
-  // Exposed so a page with a Firebase-backed dynamic gallery (data-dynamic-gallery
-  // on <body>, e.g. portfolio.html) can call this itself once photos are fetched
-  // and rendered, instead of the automatic DOMContentLoaded call below (which
-  // would otherwise run before that async fetch resolves and find an empty grid).
-  window.PG_initGallery = initGallery;
-
   document.addEventListener("DOMContentLoaded", function () {
     initPreloader();
     initCursor();
     initNav();
     initMagnetic();
-    if (!document.body.hasAttribute("data-dynamic-gallery")) initGallery();
+    initGallery();
     initForm();
     initSmoothScroll();
     // give layout a tick to settle (images/fonts) before measuring scroll triggers
