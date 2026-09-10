@@ -10,7 +10,7 @@
   "use strict";
 
   var EMAILJS_SERVICE_ID = "service_ualuejb";
-  var EMAILJS_TEMPLATE_ID = "template_miq648t";
+  var EMAILJS_TEMPLATE_ID = "template_r7g1ych";
   var EMAILJS_PUBLIC_KEY = "0hqVQvboxMxbDlIpd";
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
