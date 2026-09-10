@@ -9,6 +9,10 @@
 (function () {
   "use strict";
 
+  var EMAILJS_SERVICE_ID = "service_ualuejb";
+  var EMAILJS_TEMPLATE_ID = "template_miq648t";
+  var EMAILJS_PUBLIC_KEY = "0hqVQvboxMxbDlIpd";
+
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var hasGSAP = typeof window.gsap !== "undefined";
   var hasScrollTrigger = hasGSAP && typeof window.ScrollTrigger !== "undefined";
@@ -294,6 +298,10 @@
     if (!form) return;
     var status = document.getElementById("form-status");
 
+    if (typeof window.emailjs !== "undefined") {
+      window.emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+
     var bookingType = document.getElementById("booking_type");
     if (bookingType) {
       var requested = new URLSearchParams(window.location.search).get("type");
@@ -311,6 +319,11 @@
       e.preventDefault();
       status.textContent = "Sending your request...";
       status.removeAttribute("data-state");
+      var emailParams = {
+        name: form.elements["name"].value,
+        email: form.elements["email"].value,
+        event_date: form.elements["event_date"].value
+      };
       fetch(endpoint, {
         method: "POST",
         body: new FormData(form),
@@ -320,11 +333,16 @@
           status.textContent = "Thank you! Your request has been sent — we'll get back to you shortly.";
           status.setAttribute("data-state", "ok");
           form.reset();
+          if (typeof window.emailjs !== "undefined") {
+            window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailParams).catch(function () {
+              // Confirmation email is best-effort; the lead is already captured via Formspree.
+            });
+          }
         } else {
           throw new Error("bad response");
         }
       }).catch(function () {
-        status.textContent = "Something went wrong. Please email us directly at pilotosph@gmail.com.";
+        status.textContent = "Something went wrong. Please email us directly at hello@pilotos.ph.";
         status.setAttribute("data-state", "err");
       });
     });
