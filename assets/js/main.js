@@ -303,12 +303,47 @@
     }
 
     var bookingType = document.getElementById("booking_type");
+    var packageSelect = document.getElementById("package");
+    var packageOptions = {
+      cart: [
+        { text: "50 Cups · ₱10,000" },
+        { text: "75 Cups · ₱14,000" },
+        { text: "100 Cups · ₱18,000", selected: true },
+        { text: "150 Cups · ₱25,500" },
+        { text: "200 Cups · ₱32,000" },
+        { text: "200+ Cups · Custom Quote" },
+        { text: "Not sure yet" }
+      ],
+      privateroom: [
+        { text: "2-Hour Package · ₱8,000.00" },
+        { text: "3-Hour Package · ₱10,000.00", selected: true },
+        { text: "3-Hr+ · Custom Quote" },
+        { text: "Not sure yet" }
+      ]
+    };
+
+    function renderPackageOptions(type) {
+      if (!packageSelect) return;
+      var options = packageOptions[type] || packageOptions.cart;
+      packageSelect.innerHTML = "";
+      options.forEach(function (opt) {
+        var el = document.createElement("option");
+        el.textContent = opt.text;
+        if (opt.selected) el.selected = true;
+        packageSelect.appendChild(el);
+      });
+    }
+
     if (bookingType) {
       var requested = new URLSearchParams(window.location.search).get("type");
       var hasOption = Array.prototype.some.call(bookingType.options, function (o) { return o.value === requested; });
       if (requested && hasOption) {
         bookingType.value = requested;
       }
+      renderPackageOptions(bookingType.value);
+      bookingType.addEventListener("change", function () {
+        renderPackageOptions(bookingType.value);
+      });
     }
 
     var endpoint = form.getAttribute("action");

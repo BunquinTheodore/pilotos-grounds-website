@@ -66,13 +66,14 @@ section{ position:relative; }
 
 .eyebrow{
   display:inline-flex; align-items:center; gap:.6em;
-  font-size: .78rem; letter-spacing:.28em; text-transform:uppercase;
+  font-size: .78rem; letter-spacing:.28em; text-transform:lowercase;
   color: var(--ink); opacity:.6; font-weight:600;
 }
 .eyebrow::before{
   content:""; width: 22px; height:1px; background: currentColor; display:inline-block;
 }
 .eyebrow.no-line::before{ display:none; }
+body[data-page="terms"] .eyebrow, #terms .eyebrow{ text-transform:uppercase; }
 
 h1, .h1{
   font-family: var(--font-display);
@@ -317,6 +318,39 @@ html.has-custom-cursor body.theme-afterhours .gallery-item{
   background: linear-gradient(180deg, rgba(12,9,8,.35) 0%, rgba(12,9,8,.25) 40%, rgba(12,9,8,.88) 100%);
 }
 .hero-eyebrow{ color: var(--beige); opacity:1; }
+
+/* Reusable dark photo backdrop for a mid-page section (not the page hero) */
+.section-media{
+  position:absolute; inset:0; z-index:0;
+}
+.section-media img{
+  width:100%; height:100%; object-fit:cover;
+}
+.section-media::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(12,9,8,.55) 0%, rgba(12,9,8,.72) 55%, rgba(12,9,8,.92) 100%);
+}
+.section--media-dark{ position:relative; overflow:hidden; }
+.section--media-dark > .container{ position:relative; z-index:1; }
+.section--media-dark .price-card{
+  background: rgba(248,248,254,.12);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-color: rgba(248,248,254,.22);
+}
+.section--media-dark .price-card li{ color: rgba(248,248,254,.62); }
+.section--media-dark .price-card li b{ color: var(--white); }
+.section--media-dark .price-card ul{ border-color: rgba(248,248,254,.18); }
+.section--media-dark .price-card.is-featured{
+  background: var(--beige); color: var(--black);
+  border-color: transparent;
+}
+.section--media-dark .price-card.is-featured p{ color: rgba(12,9,8,.6); }
+.section--media-dark .price-card.is-featured li{ color: rgba(12,9,8,.55); }
+.section--media-dark .price-card.is-featured li b{ color: var(--black); }
+.section--media-dark .price-card.is-featured ul{ border-color: rgba(12,9,8,.16); }
+.section--media-dark .price-card > .eyebrow{ opacity:.85 !important; }
+
 .hero h1{ margin-top:18px; max-width: 16ch; }
 .hero h1 .line{ display:block; overflow:hidden; }
 .hero h1 .line span{ display:inline-block; transform: translateY(115%); }
@@ -549,6 +583,8 @@ html.has-custom-cursor body.theme-afterhours .gallery-item{
   display:block; font-family: var(--font-sans); font-style:normal; text-transform:uppercase;
   font-size: .8rem; letter-spacing:.4em; margin-top: 18px; color: var(--beige);
 }
+.ah-wordmark--sm{ font-size: clamp(1.8rem, 3.2vw, 2.6rem); }
+.ah-wordmark--sm small{ font-size:.62rem; letter-spacing:.32em; margin-top:8px; }
 
 /* ==========================================================================
    Footer
