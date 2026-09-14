@@ -66,14 +66,13 @@ section{ position:relative; }
 
 .eyebrow{
   display:inline-flex; align-items:center; gap:.6em;
-  font-size: .78rem; letter-spacing:.28em; text-transform:lowercase;
+  font-size: .78rem; letter-spacing:.28em; text-transform:uppercase;
   color: var(--ink); opacity:.6; font-weight:600;
 }
 .eyebrow::before{
   content:""; width: 22px; height:1px; background: currentColor; display:inline-block;
 }
 .eyebrow.no-line::before{ display:none; }
-body[data-page="terms"] .eyebrow, #terms .eyebrow{ text-transform:uppercase; }
 
 h1, .h1{
   font-family: var(--font-display);
