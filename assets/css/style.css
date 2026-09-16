@@ -667,8 +667,19 @@ html.has-custom-cursor body.theme-afterhours .gallery-item{
 .site-footer .foot-links a svg{ width:15px; height:15px; flex-shrink:0; opacity:.6; }
 .site-footer .foot-links a:hover svg{ opacity:1; }
 .foot-tagline{ font-size:.86rem; line-height:1.55; opacity:.6; max-width:26ch; margin-top:14px; }
-.foot-visit-row{ display:flex; align-items:flex-start; gap:10px; margin-top:8px; }
-.foot-visit-row svg{ width:15px; height:15px; flex-shrink:0; margin-top:3px; opacity:.55; }
+.foot-visit-group{ margin-top:20px; padding-top:18px; border-top:1px solid rgba(248,248,254,.12); }
+.foot-visit-group:first-of-type{ margin-top:0; padding-top:0; border-top:none; }
+.foot-visit-label{ font-weight:600; font-size:.94rem; color:var(--white); opacity:.9; margin-bottom:10px; }
+.foot-visit-label--accent{
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:.72rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--pink); opacity:1; margin-bottom:10px;
+}
+.foot-visit-label--accent::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--pink); flex-shrink:0; }
+.foot-visit-row{ display:flex; align-items:flex-start; gap:11px; margin-top:10px; }
+.foot-visit-row:first-of-type{ margin-top:0; }
+.foot-visit-row svg{ width:16px; height:16px; flex-shrink:0; margin-top:2px; opacity:.6; }
+.foot-visit-row span{ line-height:1.5; }
 .foot-bottom{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:14px; padding-top: 26px; font-size:.76rem; opacity:.5; }
 .foot-logo img{ height:16px; margin-bottom: 18px; }
 @media (max-width: 780px){
