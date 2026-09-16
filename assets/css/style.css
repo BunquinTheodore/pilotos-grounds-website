@@ -421,6 +421,12 @@ html.has-custom-cursor body.theme-afterhours .gallery-item{
 @media (max-width: 980px){ [data-gallery]{ column-count:2; } }
 @media (max-width: 620px){ [data-gallery]{ column-count:1; column-gap:10px; } [data-gallery] .gallery-item{ margin-bottom:10px; } }
 
+/* Fixed (non-masonry) gallery: uniform rows, e.g. a plain 3x3 grid */
+[data-gallery].gallery-fixed{ display:grid; column-count:auto; }
+[data-gallery].gallery-fixed .gallery-item{ margin-bottom:0; }
+@media (max-width: 980px){ [data-gallery].gallery-fixed{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 620px){ [data-gallery].gallery-fixed{ grid-template-columns: 1fr; } [data-gallery].gallery-fixed .gallery-item{ margin-bottom:0; } }
+
 .price-grid{ align-items:start; }
 .price-grid .price-card{ height:auto; }
 .price-grid--room{ grid-template-columns: 0.86fr 0.86fr 1.28fr; align-items:stretch; }
