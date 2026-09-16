@@ -14,6 +14,7 @@
   var EMAILJS_PUBLIC_KEY = "0hqVQvboxMxbDlIpd";
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
   var hasGSAP = typeof window.gsap !== "undefined";
   var hasScrollTrigger = hasGSAP && typeof window.ScrollTrigger !== "undefined";
   var hasLenis = typeof window.Lenis !== "undefined";
@@ -41,7 +42,7 @@
       return;
     }
     document.body.classList.add("is-loading");
-    var minDelay = 1300;
+    var minDelay = window.matchMedia("(max-width:880px)").matches ? 600 : 1300;
     var start = Date.now();
     window.addEventListener("load", function () {
       var elapsed = Date.now() - start;
@@ -67,7 +68,9 @@
   --------------------------------------------------------------------- */
   function initSmoothScroll() {
     if (reduceMotion || !hasLenis) return null;
-    var lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+    var lenis = isCoarsePointer
+      ? new Lenis({ duration: 0.6, smoothWheel: false })
+      : new Lenis({ duration: 1.05, smoothWheel: true });
     document.documentElement.classList.add("has-lenis");
     if (hasGSAP) {
       lenis.on("scroll", ScrollTrigger && ScrollTrigger.update);
@@ -102,11 +105,24 @@
     nav.classList.add("glass");
 
     if (toggle && links) {
+      var closeNav = function () {
+        links.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      };
       toggle.addEventListener("click", function () {
-        links.classList.toggle("is-open");
+        var isOpen = links.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
       });
       links.querySelectorAll("a").forEach(function (a) {
-        a.addEventListener("click", function () { links.classList.remove("is-open"); });
+        a.addEventListener("click", closeNav);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && links.classList.contains("is-open")) closeNav();
+      });
+      document.addEventListener("click", function (e) {
+        if (!links.classList.contains("is-open")) return;
+        if (links.contains(e.target) || toggle.contains(e.target)) return;
+        closeNav();
       });
     }
 
@@ -189,8 +205,10 @@
       gsap.to(".hero-eyebrow, .hero-sub", { opacity: 1, y: 0, duration: 1, delay: .5, ease: revealEase });
     }
 
-    // hero parallax
+    // hero parallax — skipped on touch/coarse-pointer devices, where the
+    // scrub-tied transform tends to fight native momentum scrolling
     gsap.utils.toArray("[data-parallax]").forEach(function (el) {
+      if (isCoarsePointer) return;
       var speed = parseFloat(el.getAttribute("data-parallax")) || 0.3;
       gsap.to(el, {
         yPercent: speed * 100,
@@ -272,7 +290,17 @@
         var img = item.querySelector("img");
         item.setAttribute("aria-label", "View larger photo" + (img && img.alt ? ": " + img.alt : ""));
       }
-      item.addEventListener("click", function () { open(i); });
+      item.addEventListener("click", function (e) {
+        if (isCoarsePointer && !item.classList.contains("is-revealed")) {
+          e.preventDefault();
+          document.querySelectorAll(".gallery-item.is-revealed").forEach(function (other) {
+            if (other !== item) other.classList.remove("is-revealed");
+          });
+          item.classList.add("is-revealed");
+          return;
+        }
+        open(i);
+      });
       item.addEventListener("keydown", function (e) {
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); }
       });
