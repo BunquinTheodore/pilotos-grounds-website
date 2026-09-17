@@ -590,6 +590,8 @@ html.has-custom-cursor body.theme-afterhours .gallery-item{
 .theme-afterhours p{ color: rgba(248,248,254,.68); }
 .theme-afterhours .eyebrow{ color: var(--beige); opacity:1; }
 .theme-afterhours .price-card, .theme-afterhours .filter-btn{ border-color: rgba(248,248,254,.18); }
+.theme-afterhours .price-card:hover{ box-shadow: 0 30px 60px -30px rgba(248,248,254,.28); border-color: rgba(248,248,254,.45); }
+.theme-afterhours .price-card.is-featured:hover{ box-shadow: 0 30px 70px -25px rgba(227,209,179,.35); border-color: var(--beige); }
 .theme-afterhours .menu-list{ border-color: rgba(248,248,254,.16); }
 .theme-afterhours .menu-row{ border-color: rgba(248,248,254,.16); }
 .theme-afterhours .menu-row .name, .theme-afterhours .menu-row .price{ color: var(--white); }

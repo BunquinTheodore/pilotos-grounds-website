@@ -334,11 +334,11 @@
     var packageSelect = document.getElementById("package");
     var packageOptions = {
       cart: [
-        { text: "50 Cups · ₱10,000" },
-        { text: "75 Cups · ₱14,000" },
-        { text: "100 Cups · ₱18,000", selected: true },
-        { text: "150 Cups · ₱25,500" },
-        { text: "200 Cups · ₱32,000" },
+        { text: "50 Cups · ₱10,000.00" },
+        { text: "75 Cups · ₱14,000.00" },
+        { text: "100 Cups · ₱18,000.00", selected: true },
+        { text: "150 Cups · ₱25,500.00" },
+        { text: "200 Cups · ₱32,000.00" },
         { text: "200+ Cups · Custom Quote" },
         { text: "Not sure yet" }
       ],
