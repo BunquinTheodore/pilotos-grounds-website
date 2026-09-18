@@ -12,6 +12,10 @@
   var EMAILJS_SERVICE_ID = "service_ualuejb";
   var EMAILJS_TEMPLATE_ID = "template_r7g1ych";
   var EMAILJS_PUBLIC_KEY = "0hqVQvboxMxbDlIpd";
+  // Internal lead-notification template (To Email field = hello@pilotos.ph, kyle@pilotos.ph).
+  // Formspree's free plan only notifies one address, so this covers the second recipient.
+  // Set this once the template exists in the EmailJS dashboard — leave blank to skip.
+  var EMAILJS_TEAM_TEMPLATE_ID = "template_hd64d6d";
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
@@ -387,6 +391,16 @@
         email: form.elements["email"].value,
         event_date: form.elements["event_date"].value
       };
+      var teamParams = {
+        name: form.elements["name"].value,
+        email: form.elements["email"].value,
+        event_date: form.elements["event_date"].value,
+        pax: form.elements["pax"] ? form.elements["pax"].value : "",
+        booking_type: form.elements["booking_type"] ? form.elements["booking_type"].value : "",
+        package: form.elements["package"] ? form.elements["package"].value : "",
+        location: form.elements["location"] ? form.elements["location"].value : "",
+        message: form.elements["message"] ? form.elements["message"].value : ""
+      };
       fetch(endpoint, {
         method: "POST",
         body: new FormData(form),
@@ -400,6 +414,11 @@
             window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailParams).catch(function () {
               // Confirmation email is best-effort; the lead is already captured via Formspree.
             });
+            if (EMAILJS_TEAM_TEMPLATE_ID) {
+              window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEAM_TEMPLATE_ID, teamParams).catch(function () {
+                // Team notification is best-effort; Formspree already delivered the primary lead email.
+              });
+            }
           }
         } else {
           throw new Error("bad response");
